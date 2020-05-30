@@ -76,14 +76,17 @@ def convertDataframeToDictionary(df, categories):
     
     return converted_docs, span_docs
 
-categories = ['stageofcare', 'error','knownallergy', 'certaintyallergy', 'themes']
-df = pd.read_csv('/Users/kawsarnoor/Desktop/cogstack/projects/allergies/annotationTool/dataloader/temp_2.csv')
-converted_docs, span_docs = convertDataframeToDictionary(df, categories)
 
-with open('data.json','w') as fp:
-    json.dump(converted_docs, fp)
+def run():
 
-with open('spandata.json', 'w') as fp:
-    json.dump(span_docs, fp)
+    categories = ['stageofcare', 'error','knownallergy', 'certaintyallergy', 'themes']
+    df = pd.read_csv('/Users/kawsarnoor/Desktop/cogstack/projects/allergies/annotationTool/dataloader/temp_2.csv')
+    converted_docs, span_docs = convertDataframeToDictionary(df, categories)
 
-print('succesfully loaded annotations from excel')
+    with open('data.json','w') as fp:
+        json.dump(converted_docs, fp)
+
+    with open('spandata.json', 'w') as fp:
+        json.dump(span_docs, fp)
+
+    print('succesfully loaded annotations from excel')

@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 import nltk
 from random import sample 
+import os.path
+from dataloader import fileformatter
 
 # configuration
 DEBUG = True
@@ -12,6 +14,9 @@ app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
+
+if not os.path.exists('data.json'):
+    fileformatter.run()
 
 # Load all data at runtime
 with open('data.json') as json_file:
@@ -148,4 +153,4 @@ def samplenewdocument():
     })  
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0')
