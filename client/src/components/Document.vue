@@ -9,7 +9,7 @@
         <h5 class="card-title">What Happened</h5>
         <p class="card-text">
           <a v-for="(word, index) in labels.whathappened" :key="index">
-            <span v-if="checkSpanStatus(index)" :id="'sp_' + (index)" style="backgroundColor: #00FFFF;">{{word}}<span></span></span>
+            <span v-if="checkSpanStatus(index)" :id="'sp_' + (index)" style="backgroundColor: #00FFFF;">{{word}}</span>
             <span v-else :id="'sp_' + (index)">{{word}}</span>
           </a>
         </p>
@@ -206,6 +206,9 @@ export default {
       axios.post(path, { label, category, id })
         .then(() => {
           this.getnextdocument(this.currentidx );
+
+          this.linkTexttoLabel(label, category, id);
+
         })
         .catch((error) => {
           console.error(error);
