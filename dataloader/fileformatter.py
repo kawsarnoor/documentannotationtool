@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import re, json
 import nltk
+import os
 
 def getspans(category,index):
     
@@ -80,7 +81,8 @@ def convertDataframeToDictionary(df, categories):
 def run():
 
     categories = ['stageofcare', 'error','knownallergy', 'certaintyallergy', 'themes']
-    df = pd.read_csv('/Users/kawsarnoor/Desktop/cogstack/projects/allergies/annotationTool/dataloader/temp_2.csv')
+
+    df = pd.read_csv(os.path.dirname(os.path.abspath(__file__)) + '/temp_2.csv')
     converted_docs, span_docs = convertDataframeToDictionary(df, categories)
 
     with open('data.json','w') as fp:
