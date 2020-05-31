@@ -159,7 +159,7 @@ export default {
   },
   methods: {
     getnextdocument(newIdx) {
-      const path = 'http://localhost:5000/getDocumentviaIndex';
+      const path = 'http://localhost:5001/getDocumentviaIndex';
       axios.post(path, {newIdx})
         .then((res) => {
           console.log(res.data.labels);
@@ -189,7 +189,7 @@ export default {
       }
 
       this.spans[category][label] = this.spans[category][label].concat(ids);
-      const path = 'http://localhost:5000/updateSpans';
+      const path = 'http://localhost:5001/updateSpans';
       let newspans = this.spans[category][label];
       
       axios.post(path, {category, label, newspans, id })
@@ -202,7 +202,7 @@ export default {
     },
     changeValue(label, category, id) {
       console.log(label);
-      const path = 'http://localhost:5000/changelabel';
+      const path = 'http://localhost:5001/changelabel';
       axios.post(path, { label, category, id })
         .then(() => {
           this.getnextdocument(this.currentidx );
@@ -233,7 +233,7 @@ export default {
     addlabel: function(id) {
       var newlabel = $('#'+ id).val();
       var category = id.split("-")[0];
-      const path = 'http://localhost:5000/addlabel';
+      const path = 'http://localhost:5001/addlabel';
 
       axios.post(path, {category, newlabel})
         .then(() => {
