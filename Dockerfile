@@ -8,4 +8,6 @@ RUN python3 -m nltk.downloader punkt
 
 COPY . . 
 
+RUN ["apt-get", "install", "-y", "vim"]
+
 CMD ["python", "app.py"]
