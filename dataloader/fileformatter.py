@@ -74,6 +74,7 @@ def convertDataframeToDictionary(df, categories):
 
         converted_docs.append(ul_dictionary)
         span_docs.append(span_dictionary)
+        
     
     return converted_docs, span_docs
 
@@ -82,7 +83,7 @@ def run():
 
     categories = ['stageofcare', 'error','knownallergy', 'certaintyallergy', 'themes']
 
-    df = pd.read_csv(os.path.dirname(os.path.abspath(__file__)) + '/temp_2.csv')
+    df = pd.read_csv(os.path.dirname(os.path.abspath(__file__)) + '/data/temp_2.csv')
     converted_docs, span_docs = convertDataframeToDictionary(df, categories)
 
     with open('data.json','w') as fp:
@@ -92,3 +93,4 @@ def run():
         json.dump(span_docs, fp)
 
     print('succesfully loaded annotations from excel')
+

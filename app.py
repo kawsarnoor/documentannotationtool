@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, json
 from flask_cors import CORS
-import nltk
+import nltk, csv
 from random import sample 
 import os.path
 from dataloader import fileformatter
@@ -25,7 +25,9 @@ with open('data.json') as json_file:
 with open('spandata.json') as json_file:
     SPANS = json.load(json_file)
 
-COMPLETED = [0]
+with open('completed.csv') as csvfile:
+    COMPLETED = [int(item) for item in list(csv.reader(csvfile,delimiter=','))[0]]
+
 
 def saveProgress():
 
@@ -34,6 +36,10 @@ def saveProgress():
 
     with open('spandata.json', 'w') as fp:
         json.dump(SPANS, fp)
+
+    with open('completed.csv','w') as fp:
+        wr = csv.writer(fp, quoting=csv.QUOTE_ALL)
+        wr.writerow(COMPLETED)
 
 
 def getspanvalueslist(idx):
@@ -147,7 +153,8 @@ def samplenewdocument():
 
     sampled_id = sample(incomplete,1)[0]
     COMPLETED.append(sampled_id)
-
+    saveProgress()
+    
     return jsonify({
         'status': 'success'
     })  
