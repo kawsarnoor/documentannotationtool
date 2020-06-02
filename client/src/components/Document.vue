@@ -155,11 +155,12 @@ export default {
       spanvalues: [],
       numbers: [1, 2, 3],
       currentidx: Number,
+      root_api: process.env.VUE_APP_URL,
     };
   },
   methods: {
     getnextdocument(newIdx) {
-      const path = 'http://localhost:5001/getDocumentviaIndex';
+      const path = 'http://' + this.root_api + ':5001/getDocumentviaIndex';
       axios.post(path, {newIdx})
         .then((res) => {
           console.log(res.data.labels);
@@ -189,7 +190,7 @@ export default {
       }
 
       this.spans[category][label] = this.spans[category][label].concat(ids);
-      const path = 'http://localhost:5001/updateSpans';
+      const path = 'http://' + this.root_api + ':5001/updateSpans';
       let newspans = this.spans[category][label];
       
       axios.post(path, {category, label, newspans, id })
@@ -202,7 +203,7 @@ export default {
     },
     changeValue(label, category, id) {
       console.log(label);
-      const path = 'http://localhost:5001/changelabel';
+      const path = 'http://' + this.root_api + ':5001/changelabel';
       axios.post(path, { label, category, id })
         .then(() => {
           this.getnextdocument(this.currentidx );
@@ -214,18 +215,7 @@ export default {
           console.error(error);
         });
     },
-    // showSpans(label, category, id) {
-    //   // let targetlabel = this.spans[category][label]
 
-    //   // for (var i=0; i <= targetlabel.length; i++){
-    //   //   $('#' + targetlabel[i]).css('background-color',"white");
-    //   //   if ($('#' + targetlabel[i]).css('background-color') != "#ccc"){
-    //   //     console.log('elsettee')
-    //   //     $('#' + targetlabel[i]).css('background-color',"#ccc");
-    //   //   }
-    //   // } 
-    //   console.log('will show spans')
-    // },
     checkSpanStatus(index) {
       var span = 'sp_' + index;
       return this.spanvalues.includes(span)
@@ -233,7 +223,7 @@ export default {
     addlabel: function(id) {
       var newlabel = $('#'+ id).val();
       var category = id.split("-")[0];
-      const path = 'http://localhost:5001/addlabel';
+      const path = 'http://' + this.root_api + ':5001/addlabel';
 
       axios.post(path, {category, newlabel})
         .then(() => {

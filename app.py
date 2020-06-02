@@ -151,6 +151,7 @@ def samplenewdocument():
     all_documents= set(list(range(len(LABELS))))
     incomplete = list(all_documents.difference(set(COMPLETED)))
 
+    #random sampling one atm
     sampled_id = sample(incomplete,1)[0]
     COMPLETED.append(sampled_id)
     saveProgress()

@@ -5,7 +5,6 @@ import nltk
 import os
 
 def getspans(category,index):
-    
     spans = re.findall(r'\[(.*?)\]', category[index])
     return spans
 
@@ -37,15 +36,22 @@ def convertDataframeToDictionary(df, categories):
                     "error": "error",
                     "known allergy": "knownallergy",
                     "certainty or severity of allergy": "certaintyallergy",
-                    "themes of causes and contributory factors": "themes"})
+                    "themes of causes and contributory factors": "themes",
+                    "outcome or barrier": "outcomes"})
 
     renamed_df['whathappened'] = renamed_df['whathappened'].replace(np.nan, '', regex=True)
     renamed_df['actionspreventing'] = renamed_df['actionspreventing'].replace(np.nan, '', regex=True)
+    renamed_df['outcomes'] = renamed_df['outcomes'].replace('', np.nan, regex=True)
+
 
     categorylabels = [retrievecategorylabels(list(renamed_df[category])) for category in categories]
     unique_labels = []
     for cl in categorylabels:
         unique_items = list(set([item for sublist in cl for item in sublist]))
+
+        if '' in unique_items:
+            unique_items.remove('')
+
         unique_labels.append(unique_items)
 
     converted_docs = []
@@ -81,9 +87,9 @@ def convertDataframeToDictionary(df, categories):
 
 def run():
 
-    categories = ['stageofcare', 'error','knownallergy', 'certaintyallergy', 'themes']
+    categories = ['stageofcare', 'error','knownallergy', 'certaintyallergy', 'themes', 'outcomes']
 
-    df = pd.read_csv(os.path.dirname(os.path.abspath(__file__)) + '/data/temp_2.csv')
+    df = pd.read_csv(os.path.dirname(os.path.abspath(__file__)) + '/data/temp.csv')
     converted_docs, span_docs = convertDataframeToDictionary(df, categories)
 
     with open('data.json','w') as fp:

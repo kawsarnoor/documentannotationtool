@@ -46,18 +46,19 @@ export default {
       return {
         currentidx: Number,
         history: [],
+        root_api: process.env.VUE_APP_URL,
       };
   },
   methods: {
     next() {
-      const path = 'http://localhost:5001/getHistory';
+      const path = 'http://' + this.root_api + ':5001/getHistory';
       axios.get(path)
         .then((res) => {
             this.history = res.data.history;
             
             if ((this.history.length - 1) === this.currentidx) {
                 // Need to sample
-                var path = 'http://localhost:5001/sampleNewDocument';
+                var path = 'http://' + this.root_api + ':5001/sampleNewDocument';
                 axios.get(path, {})
                     .then(() => {
                         this.currentidx = this.currentidx + 1;
@@ -66,7 +67,7 @@ export default {
                     .catch((error) => {
                     console.error(error);
                 });
-                var path = 'http://localhost:5001/getHistory';
+                var path = 'http://' + this.root_api + ':5001/getHistory';
                 axios.get(path)
                     .then((res) => {
                         this.history = res.data.history;
@@ -86,7 +87,7 @@ export default {
     },
 
     prev() {
-      const path = 'http://localhost:5001/getHistory';
+      const path = 'http://' + this.root_api + ':5001/getHistory';
       axios.get(path)
         .then((res) => {
             this.history = res.data.history;
@@ -111,7 +112,7 @@ export default {
   },
   created() {
     this.currentidx = 0;
-    const path = 'http://localhost:5001/getHistory';
+    const path = 'http://' + this.root_api + ':5001/getHistory';
     axios.get(path)
     .then((res) => {
         this.history = res.data.history;
