@@ -207,9 +207,6 @@ export default {
       axios.post(path, { label, category, id })
         .then(() => {
           this.getnextdocument(this.currentidx );
-
-          this.linkTexttoLabel(label, category, id);
-
         })
         .catch((error) => {
           console.error(error);
