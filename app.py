@@ -84,14 +84,15 @@ def updateSpans():
 
 @app.route('/changelabel', methods=['POST'])
 def changelabel():
-    response_object = {'status': 'success'}
+    
     req_data = request.get_json()
     category = req_data['category']
     label = req_data['label']
     id = req_data['id']   
     LABELS[id][category][label] = not LABELS[id][category][label]
     SPANS[id][category][label] = []
-
+    response_object = {'status': 'success',
+                        'new_value': LABELS[id][category][label]}
     saveProgress()
     return response_object
 

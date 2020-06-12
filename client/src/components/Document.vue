@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="category">
-        <h5>Outcome or Barrier</h5>
+        <h5>Outcomes</h5>
         <div class="row">
           <div class="col-10">
             <div class="btn-group" role="group" v-for="(value, label) in labels.outcomes" :key="label">
@@ -55,6 +55,24 @@
           <div class="col-2">
             <form class="form-inline">
               <input type="text" id="outcomes-new" class="form-control search" placeholder="new label" @keyup.enter="addlabel('outcomes-new')">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="category">
+        <h5>Barriers</h5>
+        <div class="row">
+          <div class="col-10">
+            <div class="btn-group" role="group" v-for="(value, label) in labels.barriers" :key="label">
+                  <button v-if="value == false" class="btn btn-secondary" type="button" @click="changeValue(label, 'barriers', labels.id)">{{label}} </button>
+                  <button v-if="value == true" class="btn btn-primary" type="button" @click="showSpans(label, 'barriers', labels.id)">{{label}} </button>
+                  <button v-if="value == true" class="btn btn-warning" type="button" @click="changeValue(label, 'barriers', labels.id)">&#10008;</button>
+                  <button v-if="value == true" class="btn btn-warning" type="button" @click="linkTexttoLabel(label, 'barriers', labels.id)">&#10078;</button>
+            </div>
+          </div>
+          <div class="col-2">
+            <form class="form-inline">
+              <input type="text" id="barriers-new" class="form-control search" placeholder="new label" @keyup.enter="addlabel('barriers-new')">
             </form>
           </div>
         </div>
@@ -195,7 +213,7 @@ export default {
       
       axios.post(path, {category, label, newspans, id })
         .then(() => {
-          this.getnextdocument(this.currentidx );
+          this.getnextdocument(this.currentidx);
         })
         .catch((error) => {
           console.error(error);
@@ -205,8 +223,13 @@ export default {
       console.log(label);
       const path = 'http://' + this.root_api + ':5001/changelabel';
       axios.post(path, { label, category, id })
-        .then(() => {
-          this.getnextdocument(this.currentidx );
+        .then((res) => {
+          if(res.data.new_value){
+            this.linkTexttoLabel(label, category, id);
+          }
+          else{
+            this.getnextdocument(this.currentidx);
+          }
         })
         .catch((error) => {
           console.error(error);
