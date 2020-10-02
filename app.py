@@ -76,9 +76,11 @@ def updateSpans():
     category = req_data['category']
     label = req_data['label']     
     id = req_data['id'] 
-    combinedspans = list(set(spans + SPANS[id][category][label]))  
-    SPANS[id][category][label] = combinedspans
+    combinedspans = list(set(spans + SPANS[id][category][label])) 
 
+    print('updating span:', 'id:', id, ',label:', label, ',category:', category)
+
+    SPANS[id][category][label] = combinedspans
     saveProgress()
     return response_object
 
@@ -89,6 +91,8 @@ def changelabel():
     category = req_data['category']
     label = req_data['label']
     id = req_data['id']   
+    print('changing labels:', 'id:', id, ',label:', label, ',category:', category)
+
     LABELS[id][category][label] = not LABELS[id][category][label]
     SPANS[id][category][label] = []
     response_object = {'status': 'success',
